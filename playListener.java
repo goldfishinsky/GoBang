@@ -13,22 +13,22 @@ public class playListener implements MouseListener {
 	int x,y;
 	UI ui;
 	Graphics g;
-	//³õÊ¼¼ÆÊı
+	//åˆå§‹è®¡æ•°
 	int count = 0;
-	//ÆåÅÌ´óĞ¡
+	//æ£‹ç›˜å¤§å°
 	public static int size = 15;
-	//¶ÔÕ½·½Ê½
+	//å¯¹æˆ˜æ–¹å¼
 	public int battleType=0;
-	//ÀúÊ·Êı¾İ
+	//å†å²æ•°æ®
 	public static ArrayList<ChessPosition> historyList = new ArrayList<ChessPosition>();
-	int listSize;//ÀúÊ·Êı¾İÊıÁ¿
-	//Æå×ÓÊı×é
+	int listSize;//å†å²æ•°æ®æ•°é‡
+	//æ£‹å­æ•°ç»„
 	public static int [][] chess = new int [size][size];
-	//Æå×ÓÈ¨ÖµÊı×é
+	//æ£‹å­æƒå€¼æ•°ç»„
 	public static int [][] weightArray = new int [size][size];
-	//È¨Öµ±í
+	//æƒå€¼è¡¨
 	public static HashMap<String,Integer> map = new HashMap<>();
-	ChessPosition nextPosition;//´æ´¢ÏÂÒ»Î»ÖÃÓ¦ÏÂÔÚÄÄ¶ù
+	ChessPosition nextPosition;//å­˜å‚¨ä¸‹ä¸€ä½ç½®åº”ä¸‹åœ¨å“ªå„¿
 	static {
 		map.put("", 7);
 		map.put("B", 35);
@@ -62,18 +62,18 @@ public class playListener implements MouseListener {
 //	         }
 //	         System.out.println();
 //	     }
-    	//ÅĞ¶ÏÆå×ÓÔÚÆåÅÌÉÏµÄÎ»ÖÃ
+    	//åˆ¤æ–­æ£‹å­åœ¨æ£‹ç›˜ä¸Šçš„ä½ç½®
     	x = e.getX();
 		y = e.getY();
 		int x0=(x-25)/50;
 		int y0= (y-25)/50;
 		System.out.println(x+" "+y+" "+x0+" "+y0);
-		//ÅĞ¶ÏÊÇ·ñÔÚÆåÅÌÄÚ
+		//åˆ¤æ–­æ˜¯å¦åœ¨æ£‹ç›˜å†…
 		if(x0<15&y0<15) {
-			//ÅĞ¶ÏÊÇ·ñÒÑÓĞÆå×Ó
+			//åˆ¤æ–­æ˜¯å¦å·²æœ‰æ£‹å­
 			if(chess[x0][y0]==0){
-				//ÅĞ¶ÏÆå×ÓÑÕÉ«
-				//ÈË»ú¶ÔÕ½Ä£Ê½
+				//åˆ¤æ–­æ£‹å­é¢œè‰²
+				//äººæœºå¯¹æˆ˜æ¨¡å¼
 				if(battleType==0) {
 					if(count%2 == 0){
 						chess [x0][y0] = 1;
@@ -82,13 +82,13 @@ public class playListener implements MouseListener {
 					}
 						g.setColor(Color.WHITE);
 						AIMove();
-		//		        System.out.println("ÕÒ³öÀ´×î´óµÄÊÇ:" + max);
-		//		        System.out.println("Æä×ø±êÊÇ[" + target_i + "][" + target_j + "]");
+		//		        System.out.println("æ‰¾å‡ºæ¥æœ€å¤§çš„æ˜¯:" + max);
+		//		        System.out.println("å…¶åæ ‡æ˜¯[" + target_i + "][" + target_j + "]");
 					}
 				}
-			//ÈËÈË¶ÔÕ½
+			//äººäººå¯¹æˆ˜
 				if(battleType==1) {
-					//ÅĞ¶ÏÆå×ÓÑÕÉ«
+					//åˆ¤æ–­æ£‹å­é¢œè‰²
 					if(count%2 == 0){
 						chess [x0][y0] = 1;
 						g.setColor(Color.BLACK);
@@ -98,13 +98,13 @@ public class playListener implements MouseListener {
 					}
 					chessMove(x0, y0);
 				}
-				//»ú»ú¶ÔÕ½£¨×øÉ½¹Û»¢¶·£©
+				//æœºæœºå¯¹æˆ˜ï¼ˆåå±±è§‚è™æ–—ï¼‰
 				if(battleType==2) {
 					if(count==0) {
-						//Ê×´ÎÏÂÆåÅÌÖĞÑë
+						//é¦–æ¬¡ä¸‹æ£‹ç›˜ä¸­å¤®
 						g.setColor(Color.BLACK);
 						chess[(size-1)/2][(size-1)/2]=1;
-						count++;
+						chessMove((size-1)/2,(size-1)/2);
 					}
 					while(true) {
 						AIMove();
@@ -114,19 +114,19 @@ public class playListener implements MouseListener {
 				}
 			}
 	    }
-    //Âä×ÓÏà¹Ø²Ù×÷
+    //è½å­ç›¸å…³æ“ä½œ
     public boolean chessMove(int x0,int y0) {
-    	//Âä×Ó
+    	//è½å­
 		g.fillOval(30+50*x0, 30+50*y0, 40, 40);
-		//ÓÃArrayList¼ÇÂ¼Âä×ÓÀúÊ·
+		//ç”¨ArrayListè®°å½•è½å­å†å²
 		historyList.add(new ChessPosition(x0,y0));
 		count++;
 		return isWin(x0,y0);
     }
     public boolean AIMove() {
-    	//È¨Öµ¼ÆËã
+    	//æƒå€¼è®¡ç®—
 		weighting();
-		// ×î´óÖµµÄ×ø±ê
+		// æœ€å¤§å€¼çš„åæ ‡
 		int max = 0;
         int target_i = -1;
         int target_j = -1;
@@ -139,7 +139,7 @@ public class playListener implements MouseListener {
                 }
             }
         }
-        //»úÆ÷Âä×Ó
+        //æœºå™¨è½å­
         if(count%2 == 0){
         	chess [target_i][target_j] = 1;
 			g.setColor(Color.BLACK);
@@ -149,14 +149,14 @@ public class playListener implements MouseListener {
 		}
         return chessMove(target_i, target_j);
     }
-    //Ê¤¸ºÅĞ¶Ï
+    //èƒœè´Ÿåˆ¤æ–­
     public boolean isWin(int x, int y){
-    	//Á¬ĞøÆå×Ó¸öÊı
-    	//ºáÏò
+    	//è¿ç»­æ£‹å­ä¸ªæ•°
+    	//æ¨ªå‘
     	int h = 0;
-    	//ÊúÏò
+    	//ç«–å‘
     	int	s = 0;
-    	//Ğ±Ïò
+    	//æ–œå‘
     	int xie1 = 0;
     	int xie2 = 0;
     	for (int i=x+1;i<size;i++){
@@ -216,67 +216,67 @@ public class playListener implements MouseListener {
     		}
     	}
     	if(h >= 4 || s >= 4 || xie1 >= 4 || xie2 >= 4){
-    		System.out.println("¶Ô¾Ö½áÊø");
+    		System.out.println("å¯¹å±€ç»“æŸ");
     		if(count%2==0) {
-    			ui.PopUp("¶Ô¾Ö½áÊø","°×ÆåÓ®£¡");
-    			System.out.println("°×ÆåÓ®£¡");
+    			ui.PopUp("å¯¹å±€ç»“æŸ","ç™½æ£‹èµ¢ï¼");
+    			System.out.println("ç™½æ£‹èµ¢ï¼");
     		}else {
-    			ui.PopUp("¶Ô¾Ö½áÊø","ºÚÆåÓ®£¡");
-    			System.out.println("ºÚÆåÓ®£¡");
+    			ui.PopUp("å¯¹å±€ç»“æŸ","é»‘æ£‹èµ¢ï¼");
+    			System.out.println("é»‘æ£‹èµ¢ï¼");
     		}
     		return true;
     	}
     	return false;
     }
-    //ÖØ¿ª
+    //é‡å¼€
     public void replay() {
     	chess=new int[size][size];
-    	//ÇåÁã¼ÆÊı
+    	//æ¸…é›¶è®¡æ•°
     	count=0;
-    	//ÖØ»æ
+    	//é‡ç»˜
     	ui.repaint();
     	if(listSize>0) {
     		historyList = new ArrayList<ChessPosition>();
     	}
     }
-    //»ÚÆå
+    //æ‚”æ£‹
     public void regret() {
     	listSize = historyList.size();
     	if(listSize>0) {
     		ChessPosition lastPosition = new ChessPosition();
-    		//ÒÆ³ı×îºóÒ»Î»£¬Í¬Ê±·µ»Ø×îºóÒ»¸öÀúÊ·¶ÔÏó
+    		//ç§»é™¤æœ€åä¸€ä½ï¼ŒåŒæ—¶è¿”å›æœ€åä¸€ä¸ªå†å²å¯¹è±¡
     		lastPosition = historyList.remove(listSize-1);
-    		//ÖÃ0
+    		//ç½®0
     		chess[lastPosition.xi][lastPosition.yi]=0;
     		count--;
     		ui.repaint();
     	}else {
-    		System.out.println("ÏÖÔÚÃ»·¨»ÚÆåÄØ£¿");
+    		System.out.println("ç°åœ¨æ²¡æ³•æ‚”æ£‹å‘¢ï¼Ÿ");
     	}
     }
-    //¶Ô¾Ö½áÊø
+    //å¯¹å±€ç»“æŸ
     public void defeat() {
     	if(count%2==0) {
-			ui.PopUp("¶Ô¾Ö½áÊø","ºÚÆåÓ®£¡");
-			System.out.println("ºÚÆåÓ®£¡");
+			ui.PopUp("å¯¹å±€ç»“æŸ","é»‘æ£‹èµ¢ï¼");
+			System.out.println("é»‘æ£‹èµ¢ï¼");
 		}else {
-			ui.PopUp("¶Ô¾Ö½áÊø","°×ÆåÓ®£¡");
-			System.out.println("°×ÆåÓ®£¡");
+			ui.PopUp("å¯¹å±€ç»“æŸ","ç™½æ£‹èµ¢ï¼");
+			System.out.println("ç™½æ£‹èµ¢ï¼");
 		}
     	count=0;
     }
-    //¼ÆËãÈ¨Öµ
+    //è®¡ç®—æƒå€¼
     private void weighting() {
     	for(int i=0;i<size;i++) {
     		for(int j=0;j<size;j++) {
     			int weight=0;
-    			//¶ÔÃ¿¸öÆåÅÌµãµÄÎå×Ó×é½øĞĞ±éÀú
-    			//ºáÏòÎåÔª×é(×î¶àÎå¸ö)
+    			//å¯¹æ¯ä¸ªæ£‹ç›˜ç‚¹çš„äº”å­ç»„è¿›è¡Œéå†
+    			//æ¨ªå‘äº”å…ƒç»„(æœ€å¤šäº”ä¸ª)
     			for(int n=0;n<5;n++) {
-    				//ÅĞ¶Ï×ó²àºÍÓÒ²àÊÇ·ñ´æÔÚÎåÔª×é£¬ÏŞÖÆÎåÔª×é·¶Î§
+    				//åˆ¤æ–­å·¦ä¾§å’Œå³ä¾§æ˜¯å¦å­˜åœ¨äº”å…ƒç»„ï¼Œé™åˆ¶äº”å…ƒç»„èŒƒå›´
     				if(i-n>-1&&i+n<15) {
     					String weightkey=""; 
-    					//¶ÔÎåÔª×é½øĞĞ±éÀú
+    					//å¯¹äº”å…ƒç»„è¿›è¡Œéå†
     					for(int m=0;m<5&&i-n+m>-1&&i-n+m<15;m++) {
     						if(chess[i-n+m][j]==1) {
     							weightkey += "B";
@@ -291,12 +291,12 @@ public class playListener implements MouseListener {
     					continue;
     				}
     			}
-    			//×İÏòÎåÔª×é(×î¶àÎå¸ö)
+    			//çºµå‘äº”å…ƒç»„(æœ€å¤šäº”ä¸ª)
     			for(int n=0;n<5;n++) {
-    				//ÅĞ¶Ï×ó²àºÍÓÒ²àÊÇ·ñ´æÔÚÎåÔª×é
+    				//åˆ¤æ–­å·¦ä¾§å’Œå³ä¾§æ˜¯å¦å­˜åœ¨äº”å…ƒç»„
     				if(j-n>-1&&j+n<15) {
     					String weightkey=""; 
-    					//¶ÔÎåÔª×é½øĞĞ±éÀú
+    					//å¯¹äº”å…ƒç»„è¿›è¡Œéå†
     					for(int m=0;m<5&&j-n+m<15&&j-n+m>-1;m++) {
     						if(chess[i][j-n+m]==1) {
     							weightkey += "B";
@@ -311,12 +311,12 @@ public class playListener implements MouseListener {
     					continue;
     				}
     			}
-    			//ÕıĞ±ÎåÔª×é(×î¶àÎå¸ö)
+    			//æ­£æ–œäº”å…ƒç»„(æœ€å¤šäº”ä¸ª)
     			for(int n=0;n<5;n++) {
-    				//ÅĞ¶Ï×ó²àºÍÓÒ²àÊÇ·ñ´æÔÚÎåÔª×é
+    				//åˆ¤æ–­å·¦ä¾§å’Œå³ä¾§æ˜¯å¦å­˜åœ¨äº”å…ƒç»„
     				if(i-n>-1&&i+n<15) {
     					String weightkey=""; 
-    					//¶ÔÎåÔª×é½øĞĞ±éÀú
+    					//å¯¹äº”å…ƒç»„è¿›è¡Œéå†
     					for(int m=0;m<5&&j-n+m<15&&j-n+m>-1&&i-n+m>-1&&i-n+m<15;m++) {
     						if(chess[i-n+m][j-n+m]==1) {
     							weightkey += "B";
@@ -331,12 +331,12 @@ public class playListener implements MouseListener {
     					continue;
     				}
     			}
-    			//·´Ğ±ÎåÔª×é(×î¶àÎå¸ö)
+    			//åæ–œäº”å…ƒç»„(æœ€å¤šäº”ä¸ª)
     			for(int n=0;n<5;n++) {
-    				//ÅĞ¶Ï×ó²àºÍÓÒ²àÊÇ·ñ´æÔÚÎåÔª×é
+    				//åˆ¤æ–­å·¦ä¾§å’Œå³ä¾§æ˜¯å¦å­˜åœ¨äº”å…ƒç»„
     				if(i-n>-1&&i+n<15) {
     					String weightkey=""; 
-    					//¶ÔÎåÔª×é½øĞĞ±éÀú
+    					//å¯¹äº”å…ƒç»„è¿›è¡Œéå†
     					for(int m=0;m<5&&i-n+m<15&&i-n+m>-1&&j+n-m>-1&&j+n-m<15;m++) {
     						if(chess[i-n+m][j+n-m]==1) {
     							weightkey += "B";
@@ -358,13 +358,13 @@ public class playListener implements MouseListener {
     		}
     	}
     }
-    //ÅĞ¶ÏÊÇ·ñÁ½ÖÖÆå×Ó¶¼º¬,·µ»Ø¶ÔÓ¦µÄÈ¨Öµ
+    //åˆ¤æ–­æ˜¯å¦ä¸¤ç§æ£‹å­éƒ½å«,è¿”å›å¯¹åº”çš„æƒå€¼
     private int getWeight(String weightkey){
 		if(weightkey.indexOf("B")!=-1&&weightkey.indexOf("W")!=-1) {	
 			return map.get("Polluted");
 		}
 		else {
-			//°üÀ¨ÁËÎª¿ÕÊ±µÄÇé¿ö
+			//åŒ…æ‹¬äº†ä¸ºç©ºæ—¶çš„æƒ…å†µ
 			return map.get(weightkey);
 		}
     }
