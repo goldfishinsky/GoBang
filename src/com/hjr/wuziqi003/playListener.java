@@ -111,6 +111,12 @@ public class playListener implements MouseListener {
 						chessMove(randomPosition1,randomPosition2);
 					}
 					while(true) {
+						try {
+							Thread.sleep(500);
+						} catch (InterruptedException error) {
+							// TODO Auto-generated catch block
+							error.printStackTrace();
+						}
 						AIMove();
 						if(AIMove())
 						break;
@@ -149,12 +155,6 @@ public class playListener implements MouseListener {
         	ui.PopUp("对局结束","平局！");
         	return true;
         }
-        try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
         //机器落子
         if(count%2 == 0){
         	chess [target_i][target_j] = 1;
