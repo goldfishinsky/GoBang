@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import com.hjr.wuziqi003.ChessPosition;
 
@@ -101,10 +102,13 @@ public class playListener implements MouseListener {
 				//机机对战（坐山观虎斗）
 				if(battleType==2) {
 					if(count==0) {
-						//首次下棋盘中央
 						g.setColor(Color.BLACK);
-						chess[(size-1)/2][(size-1)/2]=1;
-						chessMove((size-1)/2,(size-1)/2);
+						Random r1 = new Random ();
+						Random r2 = new Random ();
+						int randomPosition1 = r1.nextInt(size-1);
+						int randomPosition2 = r2.nextInt(size-1);
+						chess[randomPosition1][randomPosition2]=1;
+						chessMove(randomPosition1,randomPosition2);
 					}
 					while(true) {
 						AIMove();
@@ -127,7 +131,7 @@ public class playListener implements MouseListener {
     	//权值计算
 		weighting();
 		// 最大值的坐标
-		int max = 0;
+		int max = -1;
         int target_i = -1;
         int target_j = -1;
         for (int i = 0; i < size; i++) {
@@ -141,6 +145,16 @@ public class playListener implements MouseListener {
             }
             System.out.println();
         }
+        if(weightArray[target_i][target_j]==-2) {
+        	ui.PopUp("对局结束","平局！");
+        	return true;
+        }
+        try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         //机器落子
         if(count%2 == 0){
         	chess [target_i][target_j] = 1;
@@ -333,7 +347,7 @@ public class playListener implements MouseListener {
     			}
     			weightArray[i][j] = weight;
     			if(chess[i][j]!=0) {
-    				weightArray[i][j] = 0;
+    				weightArray[i][j] = -2;
     			}
     		}
     	}
